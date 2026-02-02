@@ -6,16 +6,12 @@ export default function Card({ children, style }) {
     <View
       style={[
         {
-          padding: 14,
-          borderWidth: theme.border,
+          backgroundColor: theme.card,
           borderRadius: theme.radius,
-          backgroundColor: "white",
-          // Web + Android shadow (safe)
-          shadowColor: "#000",
-          shadowOpacity: 0.08,
-          shadowRadius: 10,
-          shadowOffset: { width: 0, height: 4 },
-          elevation: 2,
+          borderWidth: 1,
+          borderColor: theme.border,
+          padding: 16,
+          ...theme.shadow,
         },
         style,
       ]}
