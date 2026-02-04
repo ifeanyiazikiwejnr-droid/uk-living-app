@@ -27,8 +27,13 @@ export default function RegisterScreen({ navigation }) {
       });
       await login(res.data.token, res.data.user?.role);
     } catch (e) {
-      setError("Registration failed. Try a different email.");
+      const msg =
+        e?.response?.data?.error ||
+        e?.response?.data?.message ||
+        "Registration failed. Please try again.";
+      setMsg(msg);
     }
+
   }
 
   return (

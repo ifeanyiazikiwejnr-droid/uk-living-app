@@ -1,14 +1,12 @@
 require("dotenv").config();
 const { Pool } = require("pg");
 
-const isRemote =
-  process.env.DATABASE_URL &&
-  !process.env.DATABASE_URL.includes("localhost") &&
-  !process.env.DATABASE_URL.includes("127.0.0.1");
+const isProd = process.env.NODE_ENV === "production";
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: isRemote ? { rejectUnauthorized: false } : false,
+  ssl: isProd ? { rejectUnauthorized: false } : false,
 });
 
 module.exports = pool;
+

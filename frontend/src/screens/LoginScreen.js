@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 export default function LoginScreen({ navigation }) {
   const { login } = useContext(AuthContext);
-  const [email, setEmail] = useState("aisha@example.com");
+  const [email, setEmail] = useState("student@example.com");
   const [password, setPassword] = useState("password123");
   const [error, setError] = useState("");
   const [isAdminLogin, setIsAdminLogin] = useState(false);
