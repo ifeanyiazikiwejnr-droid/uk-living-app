@@ -6,6 +6,7 @@ import { theme } from "../ui/theme";
 import { useContext } from "react";
 import { AuthContext } from "../auth/AuthContext";
 import { useLayoutEffect } from "react";
+import * as ImagePicker from "expo-image-picker";
 
 
 export default function AdminScreen() {
@@ -54,6 +55,38 @@ export default function AdminScreen() {
     await api.post(`/admin/buddies/${userId}/verify`, { verified: next });
     await loadBuddies();
   }
+
+  async function uploadBuddyPhoto(userId) {
+      setMsg("");
+      try {
+        const res = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          quality: 0.8,
+        });
+
+        if (res.canceled) return;
+
+        const asset = res.assets[0];
+
+        const form = new FormData();
+        form.append("photo", {
+          uri: asset.uri,
+          name: "photo.jpg",
+          type: "image/jpeg",
+        });
+
+        await api.post(`/uploads/buddy/${userId}/photo`, form, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        setMsg("Profile photo uploaded ✅");
+        await loadBuddies(); // ✅ refresh list so you see the change
+      } catch (e) {
+        setMsg(e?.response?.data?.error || "Upload failed. Try again.");
+      }
+
+    }
 
   async function createBuddy() {
     setMsg("");
@@ -161,10 +194,24 @@ export default function AdminScreen() {
                     <Text style={pillText()}>{item.verified ? "Unverify" : "Verify"}</Text>
                   </Pressable>
 
+                  <Pressable onPress={() => uploadBuddyPhoto(item.id)} style={pill()}>
+                    <Text style={pillText()}>Upload Photo</Text>
+                  </Pressable>
+
                   <Pressable onPress={() => deleteUser(item.id)} style={{ ...pill(), backgroundColor: "#dc2626", borderColor: "#dc2626" }}>
                     <Text style={{ ...pillText(), color: "white" }}>Delete</Text>
                   </Pressable>
                 </View>
+                {item.profile_image ? (
+                    <Text style={{ marginTop: 6, color: theme.muted }}>
+                      Photo: ✅
+                    </Text>
+                  ) : (
+                    <Text style={{ marginTop: 6, color: theme.muted }}>
+                      Photo: ❌
+                    </Text>
+                  )}
+
               </Card>
             )}
           />
