@@ -11,14 +11,17 @@ function signToken(user) {
 router.post("/register", async (req, res) => {
   try {
     const { full_name, email, password, home_country, ethnicity, uk_city, university } = req.body;
-    const role = req.body?.role || "student";
+    const role = (req.body?.role || "student").toLowerCase();
+
+    if (!full_name || !email || !password) {
+      return res.status(400).json({ error: "full_name, email and password are required" });
+    }
+
     if (!["student", "buddy", "admin"].includes(role)) {
-        return res.status(400).json({ error: "Invalid role" });
-      }
+      return res.status(400).json({ error: "Invalid role" });
+    }
 
-    if (!full_name || !email || !password) return res.status(400).json({ error: "Missing fields" });
-
-    const hash = await bcrypt.hash(password, 10);
+    const passwordHash = await bcrypt.hash(password, 10);
 
     const result = await pool.query(
         `
@@ -38,7 +41,7 @@ router.post("/register", async (req, res) => {
         [
           role,
           full_name,
-          email,
+          email.toLowerCase(),
           passwordHash,
           home_country || null,
           ethnicity || null,
