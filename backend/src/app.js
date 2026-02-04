@@ -20,6 +20,7 @@ app.use("/api/buddies", require("./routes/buddies"));
 app.use("/api/matching", require("./routes/matching"));
 app.use("/api/me", require("./routes/me"));
 app.use("/api/admin", require("./routes/admin"));
+app.use("/api/uploads", require("./routes/uploads"));
 
 
 
