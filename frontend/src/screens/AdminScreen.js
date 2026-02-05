@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, Pressable, FlatList, TextInput } from "react-native";
+import { View, Text, Pressable, FlatList, TextInput, Platform } from "react-native";
 import { api } from "../api";
 import Card from "../ui/Card";
 import { theme } from "../ui/theme";
@@ -68,25 +68,33 @@ export default function AdminScreen() {
         if (res.canceled) return;
 
         const asset = res.assets[0];
-
         const form = new FormData();
-        form.append("photo", {
-          uri: asset.uri,
-          name: "photo.jpg",
-          type: "image/jpeg",
-        });
+
+        if (Platform.OS === "web") {
+          // ✅ Web needs a real File object
+          const blob = await (await fetch(asset.uri)).blob();
+          const file = new File([blob], "photo.jpg", { type: blob.type || "image/jpeg" });
+          form.append("photo", file);
+        } else {
+          // ✅ Mobile works with uri object
+          form.append("photo", {
+            uri: asset.uri,
+            name: "photo.jpg",
+            type: "image/jpeg",
+          });
+        }
 
         await api.post(`/uploads/buddy/${userId}/photo`, form, {
           headers: { "Content-Type": "multipart/form-data" },
         });
 
         setMsg("Profile photo uploaded ✅");
-        await loadBuddies(); // ✅ refresh list so you see the change
+        await loadBuddies();
       } catch (e) {
         setMsg(e?.response?.data?.error || "Upload failed. Try again.");
       }
-
     }
+
 
   async function createBuddy() {
     setMsg("");

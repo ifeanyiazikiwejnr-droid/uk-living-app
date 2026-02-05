@@ -71,12 +71,6 @@ export default function BuddyScreen({ navigation }) {
                 <Text style={{ color: "white", fontWeight: "900" }}>Request a Buddy</Text>
               </Pressable>
 
-              <Pressable
-                onPress={autoMatch}
-                style={{ paddingVertical: 12, paddingHorizontal: 16, borderRadius: 999, borderWidth: 1, borderColor: theme.border, backgroundColor: "white" }}
-              >
-                <Text style={{ fontWeight: "900" }}>Try Auto-match</Text>
-              </Pressable>
             </View>
           </Card>
         ) : null}

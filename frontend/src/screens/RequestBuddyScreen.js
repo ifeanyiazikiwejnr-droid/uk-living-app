@@ -14,10 +14,11 @@ export default function RequestBuddyScreen({ navigation }) {
     setMsg("");
     try {
       await api.post("/matching/request", {
-        home_country: home_country.trim(),
-        preferred_city: preferred_city.trim() ? preferred_city.trim() : null,
-        support_areas: support_areas.trim(),
-        });
+            home_country: home_country.trim(),
+            preferred_city: preferred_city.trim() ? preferred_city.trim() : null,
+            support_areas: support_areas.trim(),
+            });
+
 
       setMsg("Request created ✅ Now try Auto-match.");
     } catch (e) {
@@ -25,16 +26,7 @@ export default function RequestBuddyScreen({ navigation }) {
     }
   }
 
-  async function autoMatch() {
-    setMsg("");
-    try {
-      await api.post("/matching/auto-match");
-      setMsg("Matched ✅ Returning to Buddy page...");
-      setTimeout(() => navigation.goBack(), 800);
-    } catch (e) {
-      setMsg("No buddy found yet. Try later or change city/country.");
-    }
-  }
+ 
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: theme.pageBg }} contentContainerStyle={{ paddingBottom: 30 }}>
@@ -82,13 +74,6 @@ export default function RequestBuddyScreen({ navigation }) {
               style={{ paddingVertical: 12, paddingHorizontal: 16, borderRadius: 999, backgroundColor: theme.accent }}
             >
               <Text style={{ color: "white", fontWeight: "900" }}>Create Request</Text>
-            </Pressable>
-
-            <Pressable
-              onPress={autoMatch}
-              style={{ paddingVertical: 12, paddingHorizontal: 16, borderRadius: 999, borderWidth: 1, borderColor: theme.border, backgroundColor: "white" }}
-            >
-              <Text style={{ fontWeight: "900" }}>Auto-match</Text>
             </Pressable>
           </View>
         </Card>
