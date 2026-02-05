@@ -58,7 +58,6 @@ export default function BuddyScreen({ navigation }) {
 
         {!loading && !buddy ? (
           <Card>
-            <Text style={{ fontWeight: "900", color: theme.text }}>No buddy matched yet</Text>
             <Text style={{ marginTop: 8, color: theme.muted, lineHeight: 20 }}>
               Create a match request and we’ll connect you with a culturally aligned mentor from your home country.
             </Text>

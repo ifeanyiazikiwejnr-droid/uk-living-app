@@ -24,6 +24,7 @@ import RequestBuddyScreen from "./src/screens/RequestBuddyScreen";
 import HowItWorksScreen from "./src/screens/HowItWorksScreen";
 import BecomeBuddyScreen from "./src/screens/BecomeBuddyScreen";
 import TasksScreen from "./src/screens/TasksScreen";
+import BuddyStudentsScreen from "./src/screens/BuddyStudentsScreen";
 
 // Admin screen
 import AdminScreen from "./src/screens/AdminScreen";
@@ -155,7 +156,7 @@ function StudentStack() {
       <Stack.Screen name="Accommodations" component={AccommodationsScreen} options={{ title: "Accommodations" }} />
       <Stack.Screen name="Restaurants" component={RestaurantsScreen} options={{ title: "Restaurants" }} />
       <Stack.Screen name="Jobs" component={JobsScreen} options={{ title: "Jobs" }} />
-      <Stack.Screen name="Tourism" component={TourismScreen} options={{ title: "Tourism" }} />
+      <Stack.Screen name="Tourism" component={TourismScreen} options={{ title: "Transportation" }} />
       <Stack.Screen name="StarterPack" component={StarterPackScreen} options={{ title: "Starter Pack" }} />
       <Stack.Screen name="Schools" component={SchoolsScreen} options={{ title: "Schools" }} />
       <Stack.Screen name="Buddy" component={BuddyScreen} options={{ title: "Your Buddy" }} />
@@ -164,6 +165,8 @@ function StudentStack() {
       <Stack.Screen name="HowItWorks" component={HowItWorksScreen} options={{ title: "How It Works" }} />
       <Stack.Screen name="BecomeBuddy" component={BecomeBuddyScreen} options={{ title: "Become a Buddy" }} />
       <Stack.Screen name="Tasks" component={TasksScreen} options={{ title: "Onboarding Tasks" }} />
+      <Stack.Screen name="BuddyStudents" component={BuddyStudentsScreen} options={{ title: "My Students" }} />
+
     </Stack.Navigator>
   );
 }

@@ -50,4 +50,30 @@ router.post("/buddy/:userId/photo", auth, upload.single("photo"), async (req, re
   }
 });
 
+// POST /api/uploads/me/photo  (buddy only)
+router.post("/me/photo", auth, upload.single("photo"), async (req, res) => {
+  try {
+    if (req.user.role !== "buddy") return res.status(403).json({ error: "Buddy only" });
+
+    const imageUrl = req.file?.path;
+    if (!imageUrl) return res.status(400).json({ error: "No image uploaded" });
+
+    await pool.query(
+      `INSERT INTO buddy_profiles (user_id) VALUES ($1)
+       ON CONFLICT (user_id) DO NOTHING`,
+      [req.user.id]
+    );
+
+    await pool.query(
+      `UPDATE buddy_profiles SET profile_image=$1 WHERE user_id=$2`,
+      [imageUrl, req.user.id]
+    );
+
+    res.json({ ok: true, image: imageUrl });
+  } catch (e) {
+    console.error("UPLOAD ME PHOTO ERROR:", e);
+    res.status(500).json({ error: "Upload failed" });
+  }
+});
+
 module.exports = router;

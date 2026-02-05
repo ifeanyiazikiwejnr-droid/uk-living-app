@@ -22,6 +22,7 @@ app.use("/api/me", require("./routes/me"));
 app.use("/api/admin", require("./routes/admin"));
 app.use("/api/uploads", require("./routes/uploads"));
 app.use("/api/buddy-page", require("./routes/buddyPage"));
+app.use("/api/buddy", require("./routes/buddyMe"));
 
 
 app.get("/api/health", (req, res) => {
